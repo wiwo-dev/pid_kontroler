@@ -1,0 +1,8 @@
+#include "przerwania.h"
+
+
+void Nowafunkcja(void)
+{
+//nothing here - just for test
+}
+
