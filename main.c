@@ -13,7 +13,8 @@
 #include "motor.h"
 
 
-
+//wlasnie dodalem do GITa
+//kolejne
 
 /*
 PWM do sterownika - TIM3_CH1 na PC6
