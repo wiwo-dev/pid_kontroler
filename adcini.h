@@ -1,5 +1,3 @@
-
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __adcinih
 #define __adcinih
 
@@ -12,13 +10,9 @@
 #include <stm32f4xx_adc.h>
 
 
-void RCC_Konfiguracja_Adc12(void);
+void IniADC1();
+void IniGPIOC0DlaADC1();
 
-void ADC1_Configuration(void);
-
-void ADC2_Configuration(void);
-void GPIO_Configuration_Adc1(void);
-void GPIO_Configuration_Adc2(void);
 
 
 #endif

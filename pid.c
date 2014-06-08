@@ -79,23 +79,24 @@ void ZapiszOczekiwanaPredkosc(float oP)
 
 
 
-void IniTimerPID()//obsluga timerem
+void IniTimerPID()
 {
+
+
 	//ustawienie trybu pracy priorytetow przerwan
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	NVIC_InitTypeDef p;
-	//numer przerwania
+	//numer timera
 	p.NVIC_IRQChannel = TIM4_IRQn;
-	// priorytet główny
+	// priorytet glowny
 	p.NVIC_IRQChannelPreemptionPriority = 0x00;
 	// subpriorytet
 	p.NVIC_IRQChannelSubPriority = 0x00;
-	// uruchom dany kanał
+	// uruchom dany kanal
 	p.NVIC_IRQChannelCmd = ENABLE;
-	// zapisz wypełnioną strukturę do rejestrów
 	NVIC_Init(&p);
 
-	//doprowadzenie sygnalu zerowego
+
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 
 	TIM_TimeBaseInitTypeDef a;
@@ -107,7 +108,7 @@ void IniTimerPID()//obsluga timerem
 	TIM_TimeBaseInit(TIM4, &a);
 
 
-	// wyczyszczenie przerwania od timera 2 (wystąpiło przy konfiguracji timera)
+	// wyczyszczenie przerwania od timera 2
 	TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 	// zezwolenie na przerwania od przepełnienia dla timera 2
 	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);

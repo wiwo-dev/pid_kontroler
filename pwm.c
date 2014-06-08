@@ -45,7 +45,7 @@
 		TIM_OCInitStructure.TIM_Pulse=0;
 		TIM_OC2Init(TIM3, &TIM_OCInitStructure);
 		TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);
-		TIM_ARRPreloadConfig(TIM3,ENABLE);
+		TIM_ARRPreloadConfig(TIM3,ENABLE);	//nie wiem o co chodzi?
 		TIM_Cmd(TIM3,ENABLE);
 		}
 

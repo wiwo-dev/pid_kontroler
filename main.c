@@ -22,15 +22,12 @@ PWM dla picu drugi - TIM3_CH2 na PC7
 */
 
 
-
+//diody na plytce 12 i 13, toggle jak jest przerwania od enkodera
 void LEDInit()
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
-
-  /* Enable the GPIO_LED Clock */
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
-  /* Configure the GPIO_LED pin */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -38,9 +35,6 @@ void LEDInit()
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_Init(GPIOD, &GPIO_InitStructure);
 }
-
-
-
 
 
 float wynikADC1;
@@ -68,8 +62,8 @@ int main(void)
 	LEDInit();
 	EXTILine0_Config();
 
-	PWM2();//wiwo
-	GPIO();//wiwo
+	PWM2();//inicjacja timerow do przerwan na wyjsciach PWM (PC6, PC7)
+	GPIO();//inicjacja PC6 PC7
 
 	//przycisk
 	IniDiody(GPIO_Pin_15);
@@ -77,56 +71,33 @@ int main(void)
 	IniPrzycisk();
 	IniTimerPrzycisk();//to juz samo w sobie dziala za pomoca przerwania
 
-	//timer ktory liczy roznice i wartosci do PID
+	//timer ktory liczy roznice i wartosci do PID - przerwanie
 	IniTimerPID();
 
 
+	//wyjscia PA8 PA9
 	iniSterowanieKierunkiem();
-	//GPIO_ResetBits(GPIOA, GPIO_Pin_9);
-	//GPIO_SetBits(GPIOA, GPIO_Pin_8);
+	//na poczatku ustawiam wyjscia na stop
 	stop();
 
 
+	IniADC1();
+	IniGPIOC0DlaADC1();
 
-	RCC_Konfiguracja_Adc12();
 
-	GPIO_Configuration_Adc1();
-	ADC1_Configuration();
-	GPIO_Configuration_Adc1();
-	GPIO_Configuration_Adc2();
-	ADC2_Configuration();
-
+	//liczenie predkosci TIM2 przerwanie
 	IniDiody(GPIO_Pin_14);
 	IniTimerPrzerwanie1();
-
-	float wartosc;
-	int a = 6553;
-
-
 
 
     while(1)
     {
     	 ADC_SoftwareStartConv(ADC1);
-    	 ADC_SoftwareStartConv(ADC2);
     	 while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
     	 wynikADC1 = (float)ADC_GetConversionValue(ADC1);
-    	 while(ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC) == RESET);
-    	 wynikADC2 = (float)ADC_GetConversionValue(ADC2);
 
 
-
-
-
-    	 if(wynikADC2<20)wynikADC2=0;
-    	 doPWM=(int)(wynikADC2 * 16);
-    	 doPWM2=(round(doPWM/1000)*100);
     	 TIM3->CCR1 = (10 * pidDane.wynikDoPWM);
-
-
-
-
-
     }
 
 

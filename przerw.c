@@ -87,12 +87,10 @@ void EXTI3_IRQHandler()
 }
 
 
-//funkcja do konfiguracji diody wykorzystanej do migania za pomoca przerwania z timera
+//inicjacja niebieskiej diody na plytce, toggle przyciskiem
 void IniDiody(unsigned long pin)
 {
-	//wlaczenie sygnalu zerowego, tutaj zakomentowane bo odpalone w main()
-	//SystemInit()
-	//dorowadzenie sygnału zerowego do portu
+	//dorowadzenie sygnau zerowego do portu
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	GPIO_InitTypeDef x;
 	x.GPIO_Pin = pin;
@@ -137,7 +135,7 @@ void IniTimerPrzerwanie1()
 
 	// wyczyszczenie przerwania od timera 2 (przy konfiguracji timera)
 	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-	// zezwolenie na przerwania od przepełnienia dla timera 2
+	// zezwolenie na przerwania od przepelnienia dla timera 2
 	TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
 	//wlaczenie timera
 	TIM_Cmd(TIM2, ENABLE);

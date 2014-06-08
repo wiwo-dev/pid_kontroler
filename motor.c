@@ -5,6 +5,7 @@ int czyJedzie=0;
 //tyl=0, przod=1 nie ustawiam stop
 int kierunek=0;
 
+//wyjscia PA8 PA9 podlaczone do wejsc INa INb sterownika
 void iniSterowanieKierunkiem()
 {
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);

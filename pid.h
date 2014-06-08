@@ -37,9 +37,9 @@ typedef struct PID_DANE
 	float wartD;
 	float retPrzedIf;
 
-	int modyfikowany;	//zmienna do okreslania czy trzeba modyfikowac wartosc bo silnik nie jedzie
 };
 
+void IniTimerPID();
 
 void ZapiszOczekiwanaPredkosc(float oP);
 

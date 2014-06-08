@@ -1,7 +1,7 @@
 #include "przycisk.h"
 
 
-
+//inicjacja przycisku PA0 - podpietego na plytce i przerwania ktore wywola
 void IniPrzycisk(void)
 {
 //przycisk - PA0
@@ -16,45 +16,43 @@ void IniPrzycisk(void)
 	GPIO_Init(GPIOA, &y);
 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
 	NVIC_InitTypeDef NVIC_InitStructure;
-	// numer przerwania
+	// numer kanalu na ktorym bedzie przerwanie - 0
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-	// priorytet główny
+	// priorytet gl
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
 	// subpriorytet
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
-	// uruchom dany kanał
+	// uruchom dany kanal
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	// zapisz wypełnioną strukturę do rejestrów
 	NVIC_Init(&NVIC_InitStructure);
 
-
-	///* Configure EXTI Line0 */
+	//konf lini przerwania - 0
 	ex.EXTI_Line=EXTI_Line0;
 	ex.EXTI_Mode=EXTI_Mode_Interrupt;
 	ex.EXTI_Trigger=EXTI_Trigger_Rising;
 	ex.EXTI_LineCmd=ENABLE;
 	EXTI_Init(&ex);
 
-	///* Connect EXTI Line0 to PA0 pin */
+	///polaczenie EXTI Line0 do PA0
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource0) ;
 }
 
-void IniTimerPrzycisk()//wykorzystywany do przycisku
+
+//wykorzystywany do przycisku - TIM5
+void IniTimerPrzycisk()
 {
 	//ustawienie trybu pracy priorytetow przerwan
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	NVIC_InitTypeDef p;
 	//numer przerwania
 	p.NVIC_IRQChannel = TIM5_IRQn;
-	// priorytet główny
+	// priorytet gl
 	p.NVIC_IRQChannelPreemptionPriority = 0x00;
 	// subpriorytet
 	p.NVIC_IRQChannelSubPriority = 0x00;
-	// uruchom dany kanał
+	// uruchom dany kanal
 	p.NVIC_IRQChannelCmd = ENABLE;
-	// zapisz wypełnioną strukturę do rejestrów
 	NVIC_Init(&p);
 
 	//doprowadzenie sygnalu zerowego
@@ -68,16 +66,13 @@ void IniTimerPrzycisk()//wykorzystywany do przycisku
 	a.TIM_RepetitionCounter=0;
 	TIM_TimeBaseInit(TIM5, &a);
 
-
-	// wyczyszczenie przerwania od timera (wystąpiło przy konfiguracji timera)
+	// wyczyszczenie przerwania od timera
 	TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
-	// zezwolenie na przerwania od przepełnienia dla timera
+	// zezwolenie na przerwania od przepelnienia dla timera
 	TIM_ITConfig(TIM5, TIM_IT_Update, ENABLE);
-	//wlaczenie timera
-	//TIM_Cmd(TIM5, ENABLE);
 }
 
-//przerwanie wywoluje sie po wcisnieciu przycisku i zalacza timer
+//przerwanie wywoluje sie po wcisnieciu przycisku i zalacza timer 5
 void EXTI0_IRQHandler ( void )
 {
 	if ( EXTI_GetITStatus ( EXTI_Line0 ) != RESET ) // sprawdzenie źródł a przerwania
@@ -93,7 +88,7 @@ void TIM5_IRQHandler(void)//timer wlacza sie przez przerwanie od przycisku
 	{
 		if(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0))
 		{
-			GPIO_ToggleBits(GPIOD, GPIO_Pin_15);
+			GPIO_ToggleBits(GPIOD, GPIO_Pin_15);	//mozna wywalic
 			zmienKierunek();
 		}
 		TIM_Cmd(TIM5, DISABLE);
