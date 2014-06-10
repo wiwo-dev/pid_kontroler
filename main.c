@@ -37,6 +37,23 @@ void LEDInit()
 }
 
 
+void diodyOdczytKierunku()
+{
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+	GPIO_InitTypeDef x;
+	x.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9;
+	x.GPIO_Mode = GPIO_Mode_OUT;
+	x.GPIO_OType = GPIO_OType_PP;
+	x.GPIO_Speed = GPIO_Speed_50MHz;
+	x.GPIO_PuPd = GPIO_PuPd_NOPULL;//tu tez cos zmienial
+	GPIO_Init(GPIOE, &x);
+}
+
+
+int enkoderAstan_2;
+int enkoderBstan_2;
+
+
 float wynikADC1;
 float wynikADC2;
 int wartoscPrescalera;
@@ -89,6 +106,8 @@ int main(void)
 	IniDiody(GPIO_Pin_14);
 	IniTimerPrzerwanie1();
 
+	diodyOdczytKierunku();
+
 
     while(1)
     {
@@ -96,8 +115,31 @@ int main(void)
     	 while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
     	 wynikADC1 = (float)ADC_GetConversionValue(ADC1);
 
+    	 if(!czyJedzie)
+    		 kierunek2=0;
 
     	 TIM3->CCR1 = (10 * pidDane.wynikDoPWM);
+
+    	if( ( kierunek2==0 ) || ( obrotowNaMinute == 0 ) )
+    	{
+    		GPIO_ResetBits(GPIOE, GPIO_Pin_7);
+    		GPIO_SetBits(GPIOE, GPIO_Pin_8);
+    		GPIO_ResetBits(GPIOE, GPIO_Pin_9);
+    	}
+    	else if( (obrotowNaMinute != 0) && ( kierunek2==1 ) )
+    	{
+    		GPIO_SetBits(GPIOE, GPIO_Pin_7);
+    		GPIO_ResetBits(GPIOE, GPIO_Pin_8);
+   			GPIO_ResetBits(GPIOE, GPIO_Pin_9);
+   		}
+   		else if( (obrotowNaMinute != 0) && ( kierunek2==2) )
+   		{
+   			GPIO_ResetBits(GPIOE, GPIO_Pin_7);
+   			GPIO_ResetBits(GPIOE, GPIO_Pin_8);
+   			GPIO_SetBits(GPIOE, GPIO_Pin_9);
+   		}
+
+
     }
 
 

@@ -3,11 +3,14 @@
 int enkoderA=0;
 int enkoderB=0;
 
+int enkoderAstan=0;
+int enkoderBstan=1;
+
 int sygObrot=624;
 
 float obrotowNaSekunde;
 float obrotowNaMinute;
-
+int kierunek2;
 
 
 float OdczytajPredkosc()
@@ -64,6 +67,10 @@ void EXTI2_IRQHandler()
     /* Toggle LED1 */
     GPIO_ToggleBits(GPIOD, GPIO_Pin_12);
     enkoderA++;
+    if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_3))
+    	kierunek2=1;
+    else
+    	kierunek2=2;
 
 
     /* Clear the EXTI line 0 pending bit */

@@ -12,6 +12,7 @@
 
 extern float obrotowNaSekunde;
 extern float obrotowNaMinute;
+extern int kierunek2;
 
 float OdczytajPredkosc();
 
