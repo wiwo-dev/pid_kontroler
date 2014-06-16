@@ -138,10 +138,6 @@ int main(void)
    			GPIO_ResetBits(GPIOE, GPIO_Pin_8);
    			GPIO_SetBits(GPIOE, GPIO_Pin_9);
    		}
-
-
     }
-
-
 }
 
