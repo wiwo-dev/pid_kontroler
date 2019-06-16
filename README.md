@@ -1,5 +1,8 @@
 pid_kontroler
 =============
+
+Projekt realizowany na początku studiów na przedmiocie którego nazwy nie pamiętam :) Był to program (kontroler PID) do sterowania prędkością silnika elektrycznego podłączanego do płytki prototypowej STM32.
+
 piny GPIO:
   PC0 (opcjonalnie) mozna podlaczyc wyjscie CS ze sterownika (powinna byc wart zasilania ale nie ma)
   
