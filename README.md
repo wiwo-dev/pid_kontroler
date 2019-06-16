@@ -7,7 +7,7 @@ piny GPIO:
   
   PC6 - wyjscie PWM do sterownika silnika
   
-  PA8 PA9 - piny podpiete pod INa oraz INb sterownika, sluza do ustalenia kierunku obrotow lub chamowania
+  PA8 PA9 - piny podpiete pod INa oraz INb sterownika, sluza do ustalenia kierunku obrotow lub hamowania
   
 
 
